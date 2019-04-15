@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+	{% if data %}
+
+	<h2>Gráficas Estadísticas - Informes</h2>
+
+	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+	    <script type="text/javascript">
+	      google.charts.load("current", {packages:["corechart"]});
+	      google.charts.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+ 			  ['Tipo', 'Cantidad'],
+	          ['Expediente', {{data.expediente}} ],
+	          ['Nota', {{data.nota}} ],
+	          ['Memo', {{data.memo}} ],
+	          ['Oficio', {{data.oficio}} ],
+	          ['Formulario', {{data.formulario}} ],
+	        ]);
+
+	        var options = {
+	          title: 'Documentaciones Total',
+	          pieHole: 0.4,
+	          fontSize: 15,
+	          chartArea: {'width': '80%', 'height': '80%'}
+	        };
+
+	        var chart = new google.visualization.PieChart(document.getElementById('documento_chart'));
+	        chart.draw(data, options);
+	      }
+	    </script>
+
+
+
+
+	    <script type="text/javascript">
+	      google.charts.load("current", {packages:["corechart"]});
+	      google.charts.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+ 			  ['Motivo', 'Cantidad'],{% for key, value in motivos_dic.items %}
+	          ['{{key}}', {{value}}],{% endfor %}
+	        ]);
+
+	        var options = {
+	          title: 'Motivos',
+	          pieHole: 0.4,
+	          fontSize: 15,
+	          chartArea: {'width': '80%', 'height': '80%'}
+	        };
+
+	        var chart = new google.visualization.PieChart(document.getElementById('motivo_chart'));
+	        chart.draw(data, options);
+	      }
+	    </script>
+
+
+
+
+	    <script type="text/javascript">
+	      google.charts.load("current", {packages:["corechart"]});
+	      google.charts.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+ 			  ['Técnico', 'Informes'],{% for key, value in tecnicos_dic.items %}
+	          ['{{key}}', {{value}} ],{% endfor %}
+	        ]);
+
+	        var options = {
+	          title: 'Técnicos',
+	          pieHole: 0.4,
+	          fontSize: 15,
+	          chartArea: {'width': '80%', 'height': '80%'}
+	        };
+
+	        var chart = new google.visualization.PieChart(document.getElementById('tecnico_chart'));
+	        chart.draw(data, options);
+	      }
+	    </script>
+
+
+
+
+	    <script type="text/javascript">
+	      google.charts.load("current", {packages:["corechart"]});
+	      google.charts.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+ 			  ['Tipo', 'Cantidad'],{% for key, value in estados_dic.items %}
+	          ['{{key}}', {{value}} ],{% endfor %}
+	        ]);
+
+	        var options = {
+	          title: 'Estados de Documentos',
+	          pieHole: 0.4,
+	          fontSize: 15,
+	          chartArea: {'width': '80%', 'height': '80%'},
+	          colors: ['#FF9900', '#109618', '#DC3912',],
+	        };
+
+	        var chart = new google.visualization.PieChart(document.getElementById('estado_chart'));
+	        chart.draw(data, options);
+	      }
+	    </script>
+
+
+
+
+
+<div class="row">
+	<div class="col-sm-6">
+		<div id="documento_chart" style="width: 500px; height: 300px;"></div>
+	</div>
+
+	<div class="col-sm-6">
+		<div id="estado_chart" style="width: 500px; height: 300px;"></div>
+	</div>
+</div>    
+	    
+
+<div class="row">
+	<div class="col-sm-6">
+		<div id="motivo_chart" style="width: 500px; height: 300px;"></div>
+	</div>
+
+	<div class="col-sm-6">
+		<div id="tecnico_chart" style="width: 500px; height: 300px;"></div>
+	</div>
+
+</div>
+
+	{% else %}
+		<h3>Nandi vera</h3>
+	{% endif %}
+
+{% endblock %}

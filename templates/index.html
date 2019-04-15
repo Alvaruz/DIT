@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+	<div class="jumbotron">
+	  <h1 class="display-4">Saludos {{user.username}}!</h1>
+	  <p class="lead">Esta aplicación fue desarrollada para soporte del Departamento de Ingeniería de Tráfico</p>
+	  <hr class="my-4">
+	  <p>Ideada para pretaciones de tareas repetitivas, consultas, estadísticas y reportes, encontrarás los menús en la sección izquierda de la página</p>
+	  <p class="lead">
+	    <a class="btn btn-primary btn-lg" href=" {% url 'panel' %} " role="button">Entendido...</a>
+	  </p>
+	</div>
+
+{% endblock %}

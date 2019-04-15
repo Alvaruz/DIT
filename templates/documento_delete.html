@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+                  <div class="col-md-6">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                      <div class="card-body">
+                       
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xl font-weight-bold text-danger text-uppercase mb-2">ELIMINAR DOCUMENTO</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                             {% if obj.tipo == 1 %}
+									Expediente Nro: {{obj.nro}} <br>
+									{% elif obj.tipo == 2 %}
+									Nota Nro: {{obj.nro}} <br>
+									{% elif obj.tipo == 3 %}
+									Memo Nro: {{obj.nro}} <br>
+									{% elif obj.tipo == 4 %}
+									Oficio Nro: {{obj.nro}} <br>
+									{% elif obj.tipo == 5 %}
+									Formulario <br>
+								{% endif %}
+							</div>
+                             Recurrente: {{obj.recurrente.nombre}} <br>
+                             Fecha: {{obj.fecha|date:"d/m/Y"}} <br>
+                             Motivos: {{obj.motivo.all|join:", " }} <br>
+                             <br>
+                            
+                          </div>
+                          <br>
+                        </div>
+
+						<div class="row no-gutters align-items-center">
+							<form method="POST">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-danger">
+									<i class="fas fa-trash"></i> Eliminar</button>
+								<a href=" {% url 'documento_list' %} " class="btn btn-secondary">
+									<i class="fas fa-undo"></i> Volver</a>
+							</form>
+						</div>
+                      </div>							
+                    </div>
+                  </div>
+{% endblock %}

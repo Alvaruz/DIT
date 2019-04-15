@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% if object_list %}
+       <div class="card shadow mb-4">
+           <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Listado de Documentos</h6>
+           </div>
+         
+           <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  	<thead>
+					  <tr>
+					  	<th scope="col">Tipo</th>
+				      	<th scope="col">Nro</th>
+				      	<th scope="col">Fecha</th>
+				      	<th scope="col">Recurrente</th>
+				      	<th scope="col">Motivo(s)</th>
+				      	<th scope="col">Estado</th>
+				      	<th scope="col">Acciones</th>
+				      </tr>
+					</thead>
+			  		<tbody>
+					  	{% for doc in object_list %}
+							{% if doc.estado.nombre == 'Vencido' %}
+								<tr class="table-danger">
+							{% elif doc.estado.nombre == 'Pendiente'%}
+								<tr class="table-warning">
+							{% elif doc.estado.nombre == 'Informado'%}
+								<tr class="table-success">
+							{% endif %}
+								{% if doc.tipo == 1 %}
+									  <td><p>Expediente</p></td>
+									{% elif doc.tipo == 2 %}
+										<td><p>Nota</p></td>
+									{% elif doc.tipo == 3 %}
+										<td><p>Memo</p></td>
+									{% elif doc.tipo == 4 %}
+										<td><p>Oficio</p></td>
+									{% elif doc.tipo == 5 %}
+										<td><p>Formulario</p></td>
+								{% endif %}
+							      <td><p>{{doc.nro}}</p></td>
+							      <td><p>{{doc.fecha}}</p></td>
+							      <td><p>{{doc.recurrente.nombre}}</p></td>
+							      <td><p>{{doc.motivo.all|join:", " }}</p></td>
+							      <td><p><strong>{{doc.estado.nombre}}</strong></p></td>
+							      <td>
+									    <a class="btn btn-info btn-circle btn-sm" href="{% url 'documento_edit' doc.id %}"> 
+									    	<i class="fas fa-info-circle"></i>
+									    </a>
+									   	<a class="btn btn-danger btn-circle btn-sm" href="{% url 'documento_delete' doc.id %}"> 
+											<i class="fas fa-trash"></i>
+									   	</a>
+							    </tr>
+							
+						{% endfor %}
+			  		</tbody>
+				</table> 
+              </div>
+            </div>
+          </div>
+	
+	<br>
+	{% else %}
+		<h3>No hay documentaciones para mostrar</h3>
+	{% endif %}
+{% endblock %}

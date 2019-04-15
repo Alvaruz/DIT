@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" media="all">
+
+{% block content %}
+	{% if data %}
+		<h2>Reportes - Resúmen General</h2>
+
+	<!-- FILA 1 -->
+		<div class="row">
+
+		<!-- DOCUMENTOS TIPOS -->
+			<div class="col-xs-6 col-md-4">
+				<table class="table">
+				  <thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Documentos</th>
+				      <th scope="col">Cantidad</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>Expedientes</td>
+				      <td>{{data.expediente}}</td>
+				    </tr>
+				      <td>Notas</td>
+				      <td>{{data.nota}}</td>
+				    </tr>
+				      <td>Memos</td>
+				      <td>{{data.memo}}</td>
+				    </tr>
+				      <td>Oficios</td>
+				      <td>{{data.oficio}}</td>
+				    </tr>
+				      <td>Formularios</td>
+				      <td>{{data.formulario}}</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+
+		<!-- DOCUMENTOS ESTADOS -->
+			<div class="col-xs-6 col-md-4">
+				<table class="table">
+				  <thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Estado</th>
+				      <th scope="col">Informes</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	{% for key, value in estados_dic.items %}
+						{% if key == 'Pendiente' %}
+							<tr class="table-warning">
+						{% elif key == 'Informado'  %}
+							<tr class="table-success">
+						{% elif key == 'Vencido'  %}
+							<tr class="table-danger">
+						{% endif %}
+								<td> {{key}} </td>
+						    	<td> {{value}} </td>
+				   			</tr>
+				   	{% endfor %}
+				  </tbody>
+				</table>
+			</div>
+		</div>    
+		
+
+<br>
+<br>
+
+		<!-- FILA 2 -->
+		<div class="row">
+
+			<!-- MOTIVOS -->
+			<div class="col-xs-6 col-md-4">
+				<table class="table">
+				  <thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Motivo</th>
+				      <th scope="col">Informes</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	{% for key, value in motivos_dic.items %}
+					  	<tr>
+							<td> {{key}} </td>
+							<td> {{value}} </td>
+						</tr>
+					{% endfor %}
+				  </tbody>
+				</table>
+			</div>
+			
+			<!-- TECNICOS -->
+			<div class="col-xs-6 col-md-4">
+				<table class="table">
+				  <thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Técnico</th>
+				      <th scope="col">Informes</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	{% for key, value in tecnicos_dic.items %}
+					  	<tr>
+							<td> {{key}} </td>
+							<td> {{value}} </td>
+						</tr>
+					{% endfor %}
+				  </tbody>
+				</table>
+			</div>
+		</div>
+
+		
+
+<br>
+<br>
+
+	{% else %}
+		<h3>Nandi vera</h3>
+	{% endif %}
+
+
+
+{% endblock %}

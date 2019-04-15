@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	{% if form.errors %}
+		<div class="alert alert-warning" role="alert">
+			<h5>Favor observar lo siguiente:</h5>
+		  {{ form.errors }}
+		</div>
+	{% endif %}
+
+	<form method="post" class="form-horizontal" enctype="multipart/form-data">	  	
+	  	{% csrf_token %} 
+			<!-- {# {{ form.as_p }} #} -->
+		<div class="card shadow mb-4">
+            <div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">REGISTRAR/MODIFICAR DOCUMENTO</h6>
+            </div>
+
+		<div class="card-body">
+
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="{{form.tipo.label}}"><strong>{{form.tipo.label}}</strong></label>
+							{{form.tipo}}
+						</div>
+						<div class="form-group col-md-4">
+							<label for="{{form.nro.label}}"><strong>{{form.nro.label}}</strong></label>
+							{{form.nro}}
+						</div>
+						<div class="form-group col-md-4">
+							<label for="{{form.fecha.label}}"><strong>{{form.fecha.label}}</strong></label>
+							{{ form.fecha }} <!-- |date:'%d-%m-%Y' -->
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="{{form.recurrente.label}}"><strong>{{form.recurrente.label}}</strong></label>
+							{{form.recurrente}}
+						</div>
+						<div class="form-group col-md-4">
+							<label for="{{form.tecnico.label}}"><strong>{{form.tecnico.label}}</strong></label>
+							{{form.tecnico}}
+						</div>
+						<div class="form-group col-md-4">
+							<label for="{{form.estado.label}}"><strong>{{form.estado.label}}</strong></label>
+							{{form.estado}}
+						</div>
+					</div>
+
+		<br>
+
+
+		<div class="card shadow mb-12">
+			<a href="#collapse_motivo" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse_motivo">
+                <h6 class="m-0 font-weight-bold text-primary">Motivo(s)</h6>
+            </a>
+			<div class="collapse show" id="collapse_motivo">
+             	<div class="card-body">
+						<div class="form-group col-md-12">
+							<label for="{{form.motivo.label}}"><strong>{{form.motivo.label}}</strong></label>
+							<br>
+							{% for checkbox in form.motivo %}
+								<label class="form-check-label" style="padding: 10px;">
+								   {{checkbox.tag}}{{checkbox.choice_label}}
+							    </label>
+							{% endfor %}
+						</div>
+				</div> 
+			</div>
+		</div>
+		<br>
+
+	<br>
+	<br>
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="{{form.imagen.label}}"><strong>{{form.imagen.label}}</strong></label>
+				{{form.imagen}}
+			</div>
+			<div class="form-group col-md-12">
+				<label for="{{form.observacion.label}}"><strong>{{form.observacion.label}}</strong></label>
+				{{form.observacion}}
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<label for="{{form.activo.label}}"><strong>{{form.activo.label}}</strong></label>
+				<input type="text" name="activo" class="form-control" id="disabledTextInput" readonly="readonly" placeholder="{{ form.activo|yesno:"SI,NO" }}">
+			</div>
+			<div class="form-group col-md-4">
+				<label for="{{form.modificado.label}}"><strong>{{form.modificado.label}}</strong></label>
+				<input type="text" name="modificado" class="form-control" id="disabledTextInput" readonly="readonly" placeholder="{{ form.modificado }}
+			</div>
+			<div class="form-group col-md-4">
+				<label for="{{form.creado_por.label}}"><strong>{{form.creado_por.label}}</strong></label>
+
+				{% if form.creado_por  %}
+					{% if form.creado_por.value == 1 %}
+						<input type="text" name="creado_por" class="form-control" id="disabledTextInput" readonly="readonly" placeholder="Alvaro">
+					{% endif %}
+					{% if form.creado_por.value == 4 %}
+						<input type="text" name="creado_por" class="form-control" id="disabledTextInput" readonly="readonly" placeholder="Maggie">
+					{% endif %}
+				{% endif %}
+
+				{% if form.creado_por.value is None %}
+					<input type="text" name="creado_por" class="form-control" id="disabledTextInput" readonly="readonly" placeholder="{{user.username}}">
+				{% endif %}
+				
+
+			</div>
+		</div>
+		
+		<br>
+		<button type="submit" class="btn btn-primary">Guardar</button>
+		<a class="btn btn-secondary" href="{% url 'documento_list' %}" style="color:white">Cancelar</a>
+
+		<!-- {{form.as_p}} -->
+		</div>
+		</div>
+
+	</form>
+
+{% endblock %}
+
+
+
+{% block footer %}
+	<br>
+{% endblock %}

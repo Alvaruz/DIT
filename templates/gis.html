@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load staticfiles %}
+{% load static %}
+
+	{% if eventos_dic %}
+
+	  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- 	  <script>
+	    google.charts.load('current', { 'packages': ['map'] });
+	    google.charts.setOnLoadCallback(drawMap);
+
+	    function drawMap() {
+	      var data = google.visualization.arrayToDataTable([
+	        ['Lat', 'Long', 'Evento'],
+	        [ {{data.evento1_lat}}, {{data.evento1_long}}, '{{ data.evento1_dett }}' ],
+	        ]);
+
+	    var options = {
+		    mapType: 'styledMap',
+	        zoomLevel: 16,
+	        showTooltip: true,
+	        showInfoWindow: true,
+	        useMapTypeControl: true,
+	        maps: {
+	          // Your custom mapTypeId holding custom map styles.
+	          styledMap: {
+	            name: 'GIS Map', // This name will be displayed in the map type control.
+	            styles: [
+	              {featureType: 'poi.attraction',
+	               stylers: [{color: '#fce8b2'}]
+	              },
+	              {featureType: 'road.highway',
+	               stylers: [{hue: '#0277bd'}, {saturation: -50}]
+	              },
+	              {featureType: 'road.highway',
+	               elementType: 'labels.icon',
+	               stylers: [{hue: '#000'}, {saturation: 100}, {lightness: 50}]
+	              },
+	              {featureType: 'landscape',
+	               stylers: [{hue: '#259b24'}, {saturation: 10}, {lightness: -22}]
+	              }
+	        ]}}
+	    };
+
+	    var map = new google.visualization.Map(document.getElementById('chart_div'));
+
+	    map.draw(data, options);
+	  };
+	  </script> -->
+
+
+    <!-- 
+    <div id="chart_div"></div> 
+    -->
+
+
+
+<script type="text/javascript">
+    google.charts.load('current', {
+      'packages': ['map'],
+      // Note: you will need to get a mapsApiKey for your project.
+      // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+      'mapsApiKey': 'AIzaSyADR3ilNQw7FKPIZme9FdQL8WNtVssQ9uM'
+    });
+    google.charts.setOnLoadCallback(drawMap);
+
+    function drawMap () {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Lat');
+      data.addColumn('number', 'Long');
+      data.addColumn('string', 'Name');
+      data.addColumn('string', 'Marker');
+
+      // 1 Cierre
+      // 2 Espacio R
+
+      data.addRows([ {% for key, value in eventos_dic.items %}
+        [{{value.13}}, {{value.15}}, '{{value.17}}', '{{value.3}}'],{% endfor %}
+        // [-25.296582, -57.576627, 'Obras', 'obras'],
+        // [-25.266241, -57.597163, 'Lomada', 'lomada'],
+        // [-25.289785, -57.627916, 'Señaletica', 'señaletica'],
+        // [-25.313568, -57.580233, 'Espacio Reservado', 'espacio'],
+      ]);
+
+      var url = 'http://maps.google.com/mapfiles/kml/';
+
+      var options = {
+      	mapType: 'styledMap',
+        zoomLevel: 13,
+        showTooltip: true,
+        showInfoWindow: true,
+        useMapTypeControl: true,
+	        maps: {
+	          // Your custom mapTypeId holding custom map styles.
+	          styledMap: {
+	            name: 'GIS Map', // This name will be displayed in the map type control.
+	            styles: [
+	              {featureType: 'poi.attraction',
+	               stylers: [{color: '#fce8b2'}]
+	              },
+	              {featureType: 'road.highway',
+	               stylers: [{hue: '#0277bd'}, {saturation: -50}]
+	              },
+	              {featureType: 'road.highway',
+	               elementType: 'labels.icon',
+	               stylers: [{hue: '#000'}, {saturation: 100}, {lightness: 50}]
+	              },
+	              {featureType: 'landscape',
+	               stylers: [{hue: '#259b24'}, {saturation: 10}, {lightness: -22}]
+	              }
+	        ]}},
+
+        icons: {
+          cierre: {
+            normal:   url + 'pal4/icon55.png',
+            selected: url + 'pal4/icon55.png'
+          },
+          obras: {
+            normal:   url + 'pal3/icon59.png',
+            selected: url + 'pal3/icon59.png'
+          },
+          lomada: {
+            normal:   url + 'pal3/icon35.png',
+            selected: url + 'pal3/icon35.png'
+          },
+          señaletica: {
+            normal:   url + 'pal4/icon29.png',
+            selected: url + 'pal4/icon29.png'
+          },
+          espacio: {
+            normal:   url + 'pal4/icon31.png',
+            selected: url + 'pal4/icon31.png'
+          },
+        }
+      };
+      var map = new google.visualization.Map(document.getElementById('map_div'));
+
+      map.draw(data, options);
+    }
+
+  </script>
+
+    <div class="row">
+
+    	<div class="col-lg-10">
+			<div id="map_div" style="height: 500px; width: 900px"></div>
+		</div>
+
+   	   <div class="col-lg-2">
+			<div class="card shadow mb-3">
+		        <div class="card-header py-3">
+		            <h6 class="m-0 font-weight-bold text-primary">Leyenda</h6>
+		        </div>
+		        <div class="card-body">
+					<p><img src="http://maps.google.com/mapfiles/kml/pal4/icon55.png" alt="">Cierre de Calle </p>
+					<p><img src="http://maps.google.com/mapfiles/kml/pal3/icon59.png" alt="">Obras </p>
+					<p><img src="http://maps.google.com/mapfiles/kml/pal3/icon35.png" alt="">Lomada </p>
+					<p><img src="http://maps.google.com/mapfiles/kml/pal4/icon29.png" alt="">Señalética </p>
+					<p><img src="http://maps.google.com/mapfiles/kml/pal4/icon31.png" alt="">Espacio Reservado </p>
+		        </div>
+		    </div>
+		</div>
+
+	</div>
+
+
+  
+
+
+
+	{% endif %}
+
+    <!-- 
+    
+{% for key, value in eventos_dic.items %}
+	Val 1: {{value.1}} <br>
+	Val 2: {{value.2}} <br>
+	Val 3: {{value.3}} <br>
+	Val 4: {{value.4}} <br>
+	Val 5: {{value.5}} <br>
+	Val 6: {{value.6}} <br>
+	Val 7: {{value.7}} <br>
+	Val 8: {{value.8}} <br>
+	Val 9: {{value.9}} <br>
+	Val 10: {{value.10}} <br>
+	Val 11: {{value.11}} <br>
+	Val 12: {{value.12}} <br>
+	Val 13: {{value.13}} <br>
+	Val 14: {{value.14}} <br>
+	Val 15: {{value.15}} <br>
+	Val 16: {{value.16}} <br>
+	Val 17: {{value.17}} <br>
+	Val 18: {{value.18}} <br>
+	Val 19: {{value.19}} <br>
+	Val 20: {{value.20}} <br>
+{% endfor %}
+-->
+
+{% endblock %}
